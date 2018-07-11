@@ -1,0 +1,38 @@
+{
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "ChattingApp",
+  "main": "index.js",
+  "dependencies": {
+    "@slack/client": "^4.3.1",
+    "array-intersection": "^0.1.2",
+    "aws-sdk": "^2.252.1",
+    "cookie-parser": "^1.4.3",
+    "csv": "^0.3.7",
+    "express": "^4.14.0",
+    "express-session": "^1.15.6",
+    "request": "^2.87.0",
+    "socket.io": "^1.4.8",
+    "tesseract.js": "^1.0.10",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paras885/ChatApp.git"
+  },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
+  "author": "Paras",
+  "license": " MIT",
+  "bugs": {
+    "url": "https://github.com/paras885/ChatApp/issues"
+  },
+  "homepage": "https://github.com/paras885/ChatApp#readme"
+}
