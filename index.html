@@ -36,6 +36,7 @@
 
       socket.on('chat message', function(msg){
         $('#messages').append($('<li>').css({"font-size": "200%"}).html(msg));
+        window.scrollTo(0, document.body.scrollHeight);
       });
     
     </script>

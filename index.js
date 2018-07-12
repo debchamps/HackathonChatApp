@@ -10,6 +10,8 @@ var chatRoomMessageSender = require("./chatroomMessageSender.js");
 //var slackNew = require("./slackNew.js");
 
 const customerInputHandler = require("./customerInputHandler.js");
+const customerGreetingController = require("./greetingController");
+
 var users = {};
 var OPTIONS = new Array(26).fill(1).map((_, i) => String.fromCharCode(65 + i));
 var MAX_OPTIONS = 5;
@@ -36,7 +38,7 @@ ios.on("connection", function(socket) {
     ) {
       ios.emit(
         "chat message",
-        "<strong>" + "ChatBot" + "</strong>  : " + data + "</br>"
+        "<strong>" + "ChatBot" + "</strong>  : " + data + "</br></br>"
       );
     });
   });
@@ -47,6 +49,11 @@ ios.on("connection", function(socket) {
 
   socket.on("join", function(name) {
     users[socket.id] = name;
+
+    // Greet customer
+    customerGreetingController.greetCustomer(name, function (greetingMessage) {
+      ios.emit("chat message", greetingMessage);
+    });
   });
 });
 http.listen(process.env.PORT || 5000, function() {
