@@ -218,7 +218,7 @@ var getCart = function(cartId, callback) {
 };
 
 var displayCart = function(currentCart) {
-  var itemMessages = "<br/><b>Cart</b><br/>";
+  var itemMessages = "\nCart\n";
   console.log("XXXXXX ", currentCart, "YYYYY");
   var isCartEmpty = true;
   for (asin in currentCart.itemQuantityMap) {
@@ -234,10 +234,10 @@ var displayCart = function(currentCart) {
       itemPrice +
       " Quantity: " +
       quantity +
-      "<br/>";
+      "\n\n";
   }
   if (isCartEmpty) {
-    return "<br>Cart is currently empty. Fill the Cart.</br><br/>";
+    return "\nCart is currently empty. Fill the Cart.\n\n";
   }
   return itemMessages;
 };

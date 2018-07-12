@@ -21,7 +21,7 @@ var InventoryListing = [];
 
 const inventoryReader = require("./search.js");
 
-var greetings = ["hi", "hello", "hola", "hey"];
+var greetings = ["hi", "hello", "hola", "hey", "/start"];
 var handleCustomerMessage = function(customerId, custRequestInput, callback) {
   //TODO: THIS IS HACK// Create crat in appropiate place.
   var custRequest = custRequestInput;
@@ -35,14 +35,16 @@ var handleCustomerMessage = function(customerId, custRequestInput, callback) {
       callback(
         "Hi, " +
           customerId +
-          ", Welcome to Prime Now. What can I order for you today?"
+          "- Welcome to Prime Now. What can I order for you today?"
       );
       return;
     }
 
     console.log("IN categorizeRequest" + customerId);
 
-    if (OPTIONS.includes(custRequest)) {
+    var potentialOptionRequest = custRequest;
+    if (OPTIONS.includes(potentialOptionRequest) || OPTIONS.includes(potentialOptionRequest.toUpperCase())) {
+      custRequest = custRequest.toUpperCase();
       console.log("Execution of executeOption");
       choiceHandler.executeOption(customerId, custRequest, function(
         customerReply

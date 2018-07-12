@@ -8,7 +8,7 @@ var placeOrder = function(orderedCart, callBack) {
     var cartItems = orderedCart.itemQuantityMap;
 
     cart.deleteCart(orderedCart.cartId);
-    var orderMessage = "Congrats YOur order with orderId " + orderId + " is placed <br/> "
+    var orderMessage = "Congrats your order: " + orderId + " is placed \n"
       + cartItemMessage(cartItems);
     callBack(orderMessage);
 
@@ -22,12 +22,12 @@ var placeOrder = function(orderedCart, callBack) {
 
 
   function cartItemMessage(cartItems) {
-    var itemMessages =  "<br/>Your ordered<br/>";
+    var itemMessages =  "\nYour ordered\n";
     for(var asin in cartItems) {
       console.log("asin XXXXXX " + asin);
       var itemName = search.getInventoryByAsin(asin).itemName;
       var itemPrice = search.getInventoryByAsin(asin).price;
-      itemMessages = itemMessages + itemName + ",    Price: " + itemPrice +   "<br/>";
+      itemMessages = itemMessages + itemName + ",    Price: " + itemPrice +   "\n\n";
 
     }
     return itemMessages;

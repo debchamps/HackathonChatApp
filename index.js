@@ -84,11 +84,11 @@ app.post('/message', (req, res) => {
   ) {
     request.post({
       "headers": { "content-type": "application/json" },
-      "url": "https://api.telegram.org/bot599130393:AAG6lkd-AYSZFCraUI531n1sbmkgBoKJFG8/sendMessage",
+      //"url": "https://api.telegram.org/bot599130393:AAG6lkd-AYSZFCraUI531n1sbmkgBoKJFG8/sendMessage",
+      "url": "https://api.telegram.org/bot488255050:AAGq-MWcfEzDVA3-GKfX-fXFPUz61EPqb3w/sendMessage",
       "body": JSON.stringify({
         "chat_id":chatId,
-        "text":data,
-        "parse_mode":"html"
+        "text":data
       })
   }, (error, response, body) => {
       if(error) {

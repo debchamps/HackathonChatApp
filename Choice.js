@@ -148,7 +148,7 @@ function searchReply(searchResult) {
   for (var i = 0; i < showSearchOptionToCustomer.length; i++) {
     response =
       response +
-      "<br/>" +
+      "\n" +
       OPTIONS[i] +
       ".   " +
       showSearchOptionToCustomer[i].itemName +
@@ -260,9 +260,9 @@ var getDisplayChoice = function(choice) {
   var displayString = "";
   if (!choice.choiceHeader) {
   } else {
-    displayString = choice.choiceHeader + " <br/><br/>";
+    displayString = choice.choiceHeader + " \n\n";
   }
-  displayString = displayString + optionKeyValues.join("<br/>");
+  displayString = displayString + optionKeyValues.join("\n\n");
   return displayString;
 };
 
@@ -298,7 +298,9 @@ function getLatestCustomerChoice(customerId, callback) {
   });
 }
 
-function findOptionById(optionId) {}
+function getDefaultOptionsUsingPreviousChoice(choice) {
+  return "Add more items or Proceed to Select Delivery Slot";
+}
 
 function executeOption(customerId, optionValue, callback) {
   //Get the latest option for the customer Id
@@ -340,8 +342,11 @@ function executeOption(customerId, optionValue, callback) {
             cart.addItemsToCart(currentCart.cartId, asinQuantityMap);
           });
           var inv = search.getInventoryByAsin(asin);
-          console.log("Item " + inv.itemName + " added to cart.");
-          callback("Item " + inv.itemName + " added to cart.");
+          
+          // fetch view cart and move delivery slot option.
+          var defaultOptionsWhenItemAdded = getDefaultOptionsUsingPreviousChoice(choice);
+          console.log("Item " + inv.itemName + " added to cart.\n" + defaultOptionsWhenItemAdded);
+          callback("Item " + inv.itemName + " added to cart.\n\n" + defaultOptionsWhenItemAdded + "\n\n");
         } else if (selectedOption.optionType == "SHOW_DELIVERY_SLOT") {
           //show delivery sliot
           cart.getLatestCustomerCart(customerId, function(currentCart) {
@@ -351,7 +356,7 @@ function executeOption(customerId, optionValue, callback) {
               currentCart.asinQuantityMap ||
               Object.keys(currentCart.itemQuantityMap).length == 0
             ) {
-              callback("<br>Cart is currently empty. Fill the Cart.</br><br/>");
+              callback("\nCart is currently empty. Fill the Cart.\n\n");
             } else {
               var deliverySlotChoice = createDeliverySlotChoice(customerId);
               createAndNotifyChoice(deliverySlotChoice, callback);
