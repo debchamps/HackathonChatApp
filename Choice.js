@@ -74,7 +74,7 @@ var createDeliverySlotChoice = function(customerId) {
   return deliverySlotChoice;
 };
 
-function defaultMenu() {
+function defaultMenu(cartEmpty) {
   var addToCartOption = new Option(
     uuid.v1(),
     "A",
@@ -89,12 +89,16 @@ function defaultMenu() {
     "Move to deliverySlot to place order",
     {}
   );
-  var defaultMenus = [addToCartOption, deliverySlotOption];
+  if (cartEmpty) {
+    return [addToCartOption, deliverySlotOption];
+  } else {
+    return [addToCartOption, deliverySlotOption];
+  }
   return defaultMenus;
 }
 
-function appendDefaultOptions(optionList) {
-  var defaultMenus = defaultMenu();
+function appendDefaultOptions(optionList, isCartEmpty) {
+  var defaultMenus = defaultMenu(isCartEmpty);
   var size = optionList.length;
   var allOptions = optionList;
   for (var i = 0; i < defaultMenus.length; i++) {
@@ -227,7 +231,16 @@ var createChoiceOnSearchSuggestion = function(
     }
     var allOptions = optionList;
     console.log("currentCart" + currentCart);
-    allOptions = appendDefaultOptions(optionList);
+    var isCartEmpty = false;
+    if (
+      currentCart == null ||
+      Object.keys(currentCart.itemQuantityMap).length == 0
+    ) {
+      isCartEmpty = true;
+    }
+    console.log("XXXX isCartEmpty", isCartEmpty);
+
+    allOptions = appendDefaultOptions(optionList, isCartEmpty);
     var choice = new Choice(allOptions, customerId, "CART_ADD");
     callback(choice);
   });
@@ -331,8 +344,19 @@ function executeOption(customerId, optionValue, callback) {
           callback("Item " + inv.itemName + " added to cart.");
         } else if (selectedOption.optionType == "SHOW_DELIVERY_SLOT") {
           //show delivery sliot
-          var deliverySlotChoice = createDeliverySlotChoice(customerId);
-          createAndNotifyChoice(deliverySlotChoice, callback);
+          cart.getLatestCustomerCart(customerId, function(currentCart) {
+            //If cart is empty show cart empty message.
+            if (
+              currentCart == null ||
+              currentCart.asinQuantityMap ||
+              Object.keys(currentCart.itemQuantityMap).length == 0
+            ) {
+              callback("<br>Cart is currently empty. Fill the Cart.</br><br/>");
+            } else {
+              var deliverySlotChoice = createDeliverySlotChoice(customerId);
+              createAndNotifyChoice(deliverySlotChoice, callback);
+            }
+          });
         } else if (selectedOption.optionType == "VIEW_CART") {
           viewCartAction(customerId, callback);
         }
