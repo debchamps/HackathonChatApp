@@ -14,7 +14,8 @@
     "request": "^2.87.0",
     "socket.io": "^1.4.8",
     "tesseract.js": "^1.0.10",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "body-parser": "^1.18.2"
   },
   "devDependencies": {},
   "scripts": {
@@ -27,7 +28,10 @@
   },
   "keywords": [
     "example",
-    "heroku"
+    "heroku",
+    "Express",
+    "RestAPI",
+    "Notes"
   ],
   "author": "Paras",
   "license": " MIT",

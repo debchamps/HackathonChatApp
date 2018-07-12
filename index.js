@@ -9,6 +9,16 @@ var chatRoomMessageSender = require("./chatroomMessageSender.js");
 //var slack = require("./slack.js");
 //var slackNew = require("./slackNew.js");
 
+const bodyParser = require('body-parser');
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// parse requests of content-type - application/json
+app.use(bodyParser.json())
+
+var request = require("request");
+
+
 const customerInputHandler = require("./customerInputHandler.js");
 const customerGreetingController = require("./greetingController");
 
@@ -63,3 +73,32 @@ http.listen(process.env.PORT || 5000, function() {
 exports.handler = function index(event, context, callback) {
   //some code
 };
+
+app.post('/message', (req, res) => {
+  var text = req.body.message.text;
+  var name = req.body.message.chat.first_name;
+  var chatId = req.body.message.chat.id;
+  console.log("received "+text+" from "+name+" chatID "+chatId);
+  customerInputHandler.handleCustomerMessage(name, text, function(
+    data
+  ) {
+    request.post({
+      "headers": { "content-type": "application/json" },
+      "url": "https://api.telegram.org/bot599130393:AAG6lkd-AYSZFCraUI531n1sbmkgBoKJFG8/sendMessage",
+      "body": JSON.stringify({
+        "chat_id":chatId,
+        "text":data,
+        "parse_mode":"html"
+      })
+  }, (error, response, body) => {
+      if(error) {
+          return console.dir(error);
+      }
+      console.dir(JSON.parse(body));
+  });
+  });
+  
+  
+  res.json({"message": "Welcome to EasyNotes application. Take notes quickly. Organize and keep track of all your notes."});
+  
+});
