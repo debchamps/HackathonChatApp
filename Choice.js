@@ -213,7 +213,7 @@ var createChoiceOnSearchSuggestion = function(
       var displayString =
         "Add " +
         showSearchOptionToCustomer[i].itemName +
-        "to cart. Price " +
+        " to cart. Price " +
         showSearchOptionToCustomer[i].price;
       optionList.push(
         new Option(
